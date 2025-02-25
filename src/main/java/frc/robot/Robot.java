@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   public Robot() {
   
     TalonFXConfiguration configs = new TalonFXConfiguration();
-    configs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
+    configs.Slot0.kP = 2.0; // An error of 1 rotation results in 2.4 V output
     configs.Slot0.kI = 0; // No output for integrated error
     configs.Slot0.kD = 0.1; // A velocity of 1 rps results in 0.1 V output
     configs.Voltage.withPeakForwardVoltage(Volts.of(12)).withPeakReverseVoltage(Volts.of(-12));
@@ -43,8 +43,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Position:", m_fx.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("Rotations:", desiredRotations);
+    SmartDashboard.putNumber("Encoder:", m_fx.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Position:", desiredRotations);
   }
 
   @Override
