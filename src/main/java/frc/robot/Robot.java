@@ -28,8 +28,7 @@ public class Robot extends TimedRobot {
     configs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
     configs.Slot0.kI = 0; // No output for integrated error
     configs.Slot0.kD = 0.1; // A velocity of 1 rps results in 0.1 V output
-    // Peak output of 8 V
-    configs.Voltage.withPeakForwardVoltage(Volts.of(8)).withPeakReverseVoltage(Volts.of(-8));
+    configs.Voltage.withPeakForwardVoltage(Volts.of(12)).withPeakReverseVoltage(Volts.of(-12));
 
     StatusCode status = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; ++i) {
@@ -39,7 +38,6 @@ public class Robot extends TimedRobot {
     if (!status.isOK()) {
       System.out.println("Could not apply configs, error code: " + status.toString());
     }
-
     m_fx.setPosition(0);
   }
 
@@ -62,9 +60,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     if (m_joystick.getLeftBumperButton()) {
-      desiredRotations = desiredRotations + m_joystick.getLeftY() * 0.3;
+      desiredRotations = desiredRotations + m_joystick.getLeftY()*2;
       m_fx.setControl(m_positionVoltage.withPosition(desiredRotations));
     } else {
+      desiredRotations = m_fx.getPosition().getValueAsDouble();
       m_fx.setControl(m_brake);
     }
   }
